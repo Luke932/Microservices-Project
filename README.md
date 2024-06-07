@@ -1,4 +1,4 @@
-🚀 Microservices Project 🚀
+# 🚀 Microservices Project 🚀
 
 Questo progetto è parte di un'architettura a microservizi che include i servizi User Service e Order Service. I due servizi comunicano tra loro tramite la tecnologia Apache Kafka.
 User Service 🧑‍💼
@@ -30,6 +30,7 @@ Il progetto dipende dalle seguenti tecnologie e framework:
 
     Spring Boot
     Spring Data JPA
+    Spring Boot Dev Tools
     Apache Kafka
     PostgreSQL Database (per lo sviluppo)
 
@@ -41,12 +42,15 @@ Il servizio utilizza un database PostgreSQL per l'archiviazione dei dati. La con
 properties
 
 # Impostazioni del database PostgreSQL
+
+```
 spring.datasource.url=jdbc:postgresql://localhost:5432/userdb
 spring.datasource.username=username
 spring.datasource.password=password
 spring.datasource.driverClassName=org.postgresql.Driver
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
+```
 
 Configurazione di Apache Kafka
 
@@ -55,16 +59,56 @@ La configurazione di Apache Kafka è definita nel file application.properties.
 properties
 
 # Configurazione di Apache Kafka
+
+```
 spring.kafka.bootstrap-servers=localhost:9092
 spring.kafka.consumer.group-id=user-service-group
 spring.kafka.consumer.auto-offset-reset=earliest
+```
+
+# Installazione di Apache Kafka 🛠️
+
+Il progetto include un tarball con le configurazioni di Kafka. Per installare e configurare Kafka, segui questi passaggi:
+
+Estrarre il tarball
+Troverai il file kafka-configs.tar.gz nella directory principale del progetto.
+Estrai il contenuto del tarball:
+
+```
+tar -xzf kafka-configs.tar.gz
+```
+
+Avviare Zookeeper
+
+Kafka richiede Zookeeper per funzionare. Avvia Zookeeper:
+
+```        
+./bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+
+Avviare Kafka
+
+Dopo aver avviato Zookeeper, avvia Kafka:
+
+```
+./bin/kafka-server-start.sh config/server.properties
+```
+
+Creare un topic Kafka
+
+Crea un topic per la comunicazione tra i servizi:
+
+```
+./bin/kafka-topics.sh --create --topic user-topic --bootstrap-server localhost:9092 --
+```
 
 Utilizzo 🛠️
 
 Dopo aver avviato i servizi, puoi utilizzare le seguenti API per interagire con gli utenti e gli ordini:
-User Service
-Creazione utente
+### User Service
+- Creazione utente
 
+```
 http
 
 POST /api/users
@@ -74,21 +118,27 @@ Content-Type: application/json
     "name": "Mario Rossi",
     "email": "mario.rossi@example.com"
 }
+```
 
-Recupero di tutti gli utenti
+- Recupero di tutti gli utenti
 
+```
 http
 
 GET /api/users
+```
 
-Recupero di un utente per ID
+- Recupero di un utente per ID
 
+```
 http
 
 GET /api/users/{id}
+```
 
-Aggiornamento utente
+- Aggiornamento utente
 
+```
 http
 
 PUT /api/users/{id}
@@ -98,16 +148,21 @@ Content-Type: application/json
     "name": "Mario Bianchi",
     "email": "mario.bianchi@example.com"
 }
+```
 
-Eliminazione utente
+- Eliminazione utente
 
+```
 http
 
 DELETE /api/users/{id}
+```
 
-Order Service
-Creazione ordine
+### Order Service
 
+- Creazione ordine
+
+```
 http
 
 POST /api/orders
@@ -120,21 +175,27 @@ Content-Type: application/json
     "status": "In attesa",
     "userId": 123
 }
+```
 
-Recupero di tutti gli ordini
+- Recupero di tutti gli ordini
 
+```
 http
 
 GET /api/orders
+```
 
-Recupero di un ordine per ID
+- Recupero di un ordine per ID
 
+```
 http
 
 GET /api/orders/{id}
+```
 
-Aggiornamento ordine
+- Aggiornamento ordine
 
+```
 http
 
 PUT /api/orders/{id}
@@ -143,5 +204,6 @@ Content-Type: application/json
 {
     "status": "Consegnato"
 }
+```
 
-ChatGPT può c
+
